@@ -9,9 +9,16 @@ app.use(cors());
 app.use(express.json());
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/schooldb').then(() => {
+// mongoose.connect('mongodb://localhost:27017/schooldb').then(() => {
+//     console.log('Connected to MongoDB');
+// }).catch((error) => {
+//     console.error('MongoDB connection error:', error);
+// });
+mongoose.connect(process.env.MONGODB_URI)
+.then(() => {
     console.log('Connected to MongoDB');
-}).catch((error) => {
+})
+.catch((error) => {
     console.error('MongoDB connection error:', error);
 });
 
@@ -278,6 +285,11 @@ app.delete('/admissions/:id', async (req, res) => {
     }
 });
 
-app.listen(3000, () => {
-    console.log('Server running on port 3000');
+// app.listen(3000, () => {
+//     console.log('Server running on port 3000');
+// });
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });
